@@ -1,0 +1,61 @@
+\documentclass[thmcnt=section, color=blue, 12pt]{my-elegantbook}
+
+\usepackage{bbm}
+
+% Index page
+\usepackage{imakeidx}
+\makeindex[columns=2, intoc]
+
+% Title and author
+\title{Example Document}
+\author{Isaac FEI}
+
+% Reference file
+\addbibresource{references.bib} 
+
+% Image of tunlabhe book cover
+% \cover{cover.png}
+
+\begin{document}
+
+% Print title and cover page
+\maketitle
+
+%--------
+% Preface
+%--------
+
+\frontmatter
+\chapter*{Preface}
+
+% This book mainly follows the structure of \cite{apostolMathematicalAnalysisModern1974}.
+
+%------------------------------
+
+% Print table of contents
+\tableofcontents
+\mainmatter
+
+%-------------------------------
+% Main document starts from here
+%-------------------------------
+
+\chapter{Chapter 1}
+
+\section{Section 1.1}
+
+\begin{exercise}
+    This is exercise is unlabelled.
+\end{exercise}
+
+\begin{exercise} \label{ex:1}
+    This is an exercise.
+\end{exercise}
+
+\chapter{Chapter 2}
+
+Did you complete Exercise~\ref{ex:1}?
+
+
+
+\end{document}

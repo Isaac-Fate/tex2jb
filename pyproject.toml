@@ -1,0 +1,28 @@
+[project]
+name = "tex2jb"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "isaac-fei", email = "isaac.omega.fei@gmail.com" }
+]
+requires-python = ">=3.11"
+dependencies = [
+    "jupyter-book>=1.0.4.post1",
+    "pydantic>=2.10.6",
+    "sphinx-proof>=0.2.0",
+    "texsoup>=0.3.1",
+]
+
+[project.scripts]
+tex2jb = "tex2jb:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = [
+    "ipykernel>=6.29.5",
+    "pytest>=8.3.5",
+]
