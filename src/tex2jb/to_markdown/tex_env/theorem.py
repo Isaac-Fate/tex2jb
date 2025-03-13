@@ -1,6 +1,7 @@
 from TexSoup.data import TexNode
 from typing import Optional
 from ..context import ToMarkdownContext
+from ..utils import remove_leading_white_spaces
 
 
 def convert_theorem_env_to_markdown(
@@ -57,4 +58,4 @@ def convert_theorem_env_to_markdown(
     # Join the markdown strings
     markdown_content = "".join(markdown_contents)
 
-    return markdown_content
+    return remove_leading_white_spaces(markdown_content)

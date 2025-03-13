@@ -2,7 +2,6 @@ from TexSoup.data import TexNode, Token, TexEnv, TexCmd
 from typing import Optional
 from .context import ToMarkdownContext
 from .tex_token import convert_tex_token_to_markdown
-from .tex_cmd import convert_label_cmd_to_markdown
 
 
 def convert_tex_content_to_markdown(
@@ -18,47 +17,58 @@ def convert_tex_content_to_markdown(
             # Get the environment name
             env_name = tex_content.name
 
-            # Theorem environment
-            if env_name in (
-                "theorem",
-                "proposition",
-                "lemma",
-                "corollary",
-                "example",
-                "proof",
-            ):
+            match env_name:
 
-                from .tex_env import convert_theorem_env_to_markdown
+                # Theorem environment
+                case (
+                    "theorem"
+                    | "proposition"
+                    | "lemma"
+                    | "corollary"
+                    | "example"
+                    | "proof"
+                ):
 
-                return convert_theorem_env_to_markdown(
-                    tex_content,
-                    context,
-                )
+                    from .tex_env import convert_theorem_env_to_markdown
 
-            # Exercise environment
-            elif env_name == "exercise":
+                    return convert_theorem_env_to_markdown(
+                        tex_content,
+                        context,
+                    )
 
-                from .tex_env import convert_exercise_env_to_markdown
+                # Exercise environment
+                case "exercise":
 
-                return convert_exercise_env_to_markdown(
-                    tex_content,
-                    context,
-                )
+                    from .tex_env import convert_exercise_env_to_markdown
 
-            # Math environment
-            elif env_name == "math":
+                    return convert_exercise_env_to_markdown(
+                        tex_content,
+                        context,
+                    )
 
-                # Delay the import to avoid circular import
-                from .tex_env import convert_math_env_to_markdown
+                # Math environment
+                case (
+                    "align"
+                    | "align*"
+                    | "alignat"
+                    | "alignat*"
+                    | "equation"
+                    | "equation*"
+                    | "multline"
+                    | "multline*"
+                ):
 
-                return convert_math_env_to_markdown(
-                    tex_content,
-                    context,
-                )
+                    # Delay the import to avoid circular import
+                    from .tex_env import convert_math_env_to_markdown
 
-            # Unkown environment
-            else:
-                return str(tex_content)
+                    return convert_math_env_to_markdown(
+                        tex_content,
+                        context,
+                    )
+
+                # Unkown environment
+                case _:
+                    return str(tex_content)
 
         # Hanlde command
         elif isinstance(tex_content.expr, TexCmd):
@@ -68,9 +78,19 @@ def convert_tex_content_to_markdown(
 
             match cmd_name:
 
-                case "label":
-                    print("label!!!")
-                    return convert_label_cmd_to_markdown(tex_content)
+                # Set empty strings for these commands
+                case (
+                    "maketitle"
+                    | "frontmatter"
+                    | "mainmatter"
+                    | "tableofcontents"
+                    | "label"
+                    | "noindent"
+                    | "nonumber"
+                    | "item"
+                    | "par"
+                ):
+                    return ""
 
                 # Display the other command as it is
                 case _:
