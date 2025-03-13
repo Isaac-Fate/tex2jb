@@ -2,6 +2,7 @@ from TexSoup.data import TexNode, Token, TexEnv, TexCmd
 from typing import Optional
 from .context import ToMarkdownContext
 from .tex_token import convert_tex_token_to_markdown
+from .tex_cmd import convert_sectioning_cmd_to_markdown
 
 
 def convert_tex_content_to_markdown(
@@ -77,6 +78,19 @@ def convert_tex_content_to_markdown(
             cmd_name = tex_content.name
 
             match cmd_name:
+
+                # Sectioning
+                case (
+                    "chapter"
+                    | "chapter*"
+                    | "section"
+                    | "section*"
+                    | "subsection"
+                    | "subsection*"
+                    | "subsubsection"
+                    | "subsubsection*"
+                ):
+                    return convert_sectioning_cmd_to_markdown(tex_content)
 
                 # Set empty strings for these commands
                 case (
